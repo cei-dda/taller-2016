@@ -17,6 +17,7 @@
     "less-middleware": "1.0.x",
     "morgan": "~1.7.0",
     "pg": "^6.0.2",
+    "pg-promise": "^5.2.0",
     "serve-favicon": "~2.3.0"
   }
 }
