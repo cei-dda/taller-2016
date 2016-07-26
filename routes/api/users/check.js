@@ -1,17 +1,26 @@
 var express = require('express');
-var pg = require('pg');
+var pgClient = require('../../../utils/database_connection');
 var router = express.Router();
 
-/* GET users listing. */
-router.post('/', function(req, res, next) {
-    res.send({
+router.post('/', function (req, res, next) {
+  console.log(req, res, next);
+  var client = pgClient.connect();
+  var queryGetId = pgClient.getNextId(client);
+  queryGetId.on('end', function () {
+    /*
+     SELECT *
+     FROM your_table
+     WHERE ST_Distance_Sphere(the_geom, ST_MakePoint(your_lon,your_lat)) <= radius_mi * 1609.34
+     */
+    var query = client.query('SELECT * FROM points');
+    query.on('end', function () {
+      console.log(arguments);
+      client.end();
+      res.send({
         status: 'success'
+      });
     });
-    var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/finder';
-    var client = new pg.Client(connectionString);
-    client.connect();
-    var query = client.query('CREATE TABLE items(id SERIAL PRIMARY KEY, text VARCHAR(40) not null, complete BOOLEAN)');
-    query.on('end', function() { client.end(); });
+  });
 });
 
 module.exports = router;
