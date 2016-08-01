@@ -7,7 +7,8 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var usersCheckAPI = require('./routes/api/users/check');
+var pointsApi = require('./routes/api/points/points');
+var checkApi = require('./routes/api/users/check');
 
 var app = express();
 
@@ -16,7 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false,}));
@@ -26,7 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/api/users/check', usersCheckAPI);
+app.use('/api/points', pointsApi);
+app.use('/api/users/check', checkApi);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) { //eslint-disable-line no-unused-vars

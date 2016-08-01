@@ -14,7 +14,6 @@ router.post('/', function (req, res, next) {
      */
     var query = client.query('SELECT * FROM points');
     query.on('end', function () {
-      console.log(arguments);
       client.end();
       res.send({
         status: 'success'
