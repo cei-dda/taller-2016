@@ -7,9 +7,9 @@ router.get('/', function (req, res) {
   var client = pgClient.connect();
   var queryString = 'SELECT * FROM points as p ' +
     'WHERE ST_DWithin(p.location, ' +
-    'Geography(ST_MakePoint(-71060316, 48.432044)), ' +
+    'Geography(ST_MakePoint($1, $2)), ' +
     '100);';
-  var query = client.query(queryString);
+  var query = client.query(queryString, [req.query.lng, req.query.lat]);
   query.on('end', function (result) {
     res.send(result);
   });
